@@ -13,10 +13,11 @@ Jest to luka utworzona poprzez zwykły ludzki błąd przy projektowaniu systemu 
 
 ## **Zaczynamy**:
 
-1. Należy uruchomić serwer oraz client za pomocą komendy
+1. Należy uruchomić serwer oraz client. W tym celu przechodzimy do katalogu ```/server``` i wpisujemy komendę:
     ```
      npm start
     ```
+    Teraz przechodzimy do katalogu ```/client``` i ponownie wpisujemy powyższą komendę.
 2. Teraz uruchom bazę danych w dokerze za pomocą komendy (należy znajdować się w folderze zawierającym plik "docker-compose.yaml"):
     ```
     docker compose up
