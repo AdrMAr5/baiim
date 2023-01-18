@@ -3,7 +3,7 @@ const cors = require('cors')
 const bodyParser = require("body-parser");
 const { response } = require("express");
 const { MongoClient } = require("mongodb");
-import Hashes from 'jshashes'
+const Hashes = require('jshashes');
 
 const app = express();
 app.use(express.json());
