@@ -3,7 +3,7 @@ const cors = require('cors')
 const bodyParser = require("body-parser");
 const { response } = require("express");
 const { MongoClient } = require("mongodb");
-
+import Hashes from 'jshashes'
 
 const app = express();
 app.use(express.json());
@@ -20,9 +20,8 @@ app.post('/login', async (req, res) => {
     const db = client.db("Users");
     const collection = db.collection("Users");
     const result = await collection.findOne({ "name": req.body.login });
-    client.close();
+    await client.close();
 
-    console.log((result));
     if (result != null)
         res.end(JSON.stringify({ user: result.name, hasz: result.password }));
 })
