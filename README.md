@@ -40,44 +40,13 @@ Jest to luka utworzona poprzez zwykły ludzki błąd przy projektowaniu systemu 
 ## **Zadanie 1**
 Zdobądź hash hasła do użytkownika admin, a następnie złam za pomocą dowolnego narzędzia. Zauważ, że przy próbie logowania na konto danego uzytkowika serwer zwraca ci hash jego hasła. Spróbuj go podglądnąć przy pomocy Burpa czy też innych narzędzi.
 
-<details>
-<summary>Rozwązanie</summary>
-<br>
-
-Wysyłamy zapytanie z formularza logowania do użytkownika `admin` za pomocą **Burpa** a nastepnie odczytujemy hash hasła z odpowiedzi uzyskanej od serwera.
-
-Uzyskanie hasło próbujemy złamać przy pomocy hashcata
-
-uruchamiamy hashcata
-
-```
-hashcat -m 1800 -a3 password ?u?u?u?u
-```
-
-Opcja "-m 1800" wskazuje na rodzaj szyfrowania hasła (rodzaj hashu), a w tym przypadku jest to rodzaj hashu SHA-512(Unix). Opcja "-a 3" oznacza, że hashcat będzie używał metody brute-force (przeprowadzenie próby złamania hasła poprzez wypróbowanie wszystkich możliwych kombinacji).
-
-password to plik w którym przechowujemy hash, który będzie przez nas łamany.
-
-Jeśli chodzi o ciąg znaków "?u?u?u?u", to jest to szablon, który określa, jakie hasło będzie szukane [link](https://hashcat.net/wiki/doku.php?id=mask_attack).
-?u = ABCDEFGHIJKLMNOPQRSTUVWXYZ
-
-Czyli hashcat dla argunetu "?u?u?u?u" wygeneruje wszytskie 4 znakowe możliwości liter "ABCDEFGHIJKLMNOPQRSTUVWXYZ".
-
-Po złamaniu hasła logujemy się na serwer
-
-</details>
 
 ## **Zadanie 2**
 Korzystając z wiedzy zdobytej podczas prezentacji oraz na innych zajęciach, popraw aplikację, tak aby do porównywania haszy dochodziło w odpowiednim miejscu. Czyli:
 1. Porównywanie haszy powinno następować bezpośrednio po pobraniu haszu z bazy danych.
 2. Serwer nie może pobranego z bazy danych haszu zwracać w odpowiedzi do klienta.
 
-<details>
-<summary>Wskazówki</summary>
-<br>
-W pliku server.js
-w endpoincie /login zahaszuj hasło którym użytkownik próbuje się zalogować (skorzystaj z wzoru w kodzie klienta), następnie porównaj je z haszem wyciąganym z bazy. Do klienta w response wyślij status: 200 OK lub 401 Unauthorized w zależności od tego czy dane logowania się zgadzają. Zrób to za pomocą res.sendStatus(code)
-</details>
+
 
 
 <br><br>
