@@ -67,6 +67,20 @@ Po złamaniu hasła logujemy się na serwer
 
 </details>
 
+## **Zadanie 2**
+Korzystając z wiedzy zdobytej podczas prezentacji oraz na innych zajęciach, popraw aplikację, tak aby do porównywania haszy dochodziło w odpowiednim miejscu. Czyli:
+1. Porównywanie haszy powinno następować bezpośrednio po pobraniu haszu z bazy danych.
+2. Serwer nie może pobranego z bazy danych haszu zwracać w odpowiedzi do klienta.
+
+<details>
+<summary>Wskazówki</summary>
+<br>
+W pliku 
+```
+server.js
+```
+w endpoincie ```/login``` zahaszuj hasło którym użytkownik próbuje się zalogować (skorzystaj z wzoru w kodzie klienta), następnie porównaj je z haszem wyciąganym z bazy. Do klienta w ```res``` wyślij status: ```200 OK``` lub ```401 Unauthorized``` w zależności od tego czy dane logowania się zgadzają. Zrób to za pomocą ```res.sendStatus(code)```
+</details>
 
 
 <br><br>
