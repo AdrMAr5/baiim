@@ -75,11 +75,8 @@ Korzystając z wiedzy zdobytej podczas prezentacji oraz na innych zajęciach, po
 <details>
 <summary>Wskazówki</summary>
 <br>
-W pliku 
-```
-server.js
-```
-w endpoincie ```/login``` zahaszuj hasło którym użytkownik próbuje się zalogować (skorzystaj z wzoru w kodzie klienta), następnie porównaj je z haszem wyciąganym z bazy. Do klienta w ```res``` wyślij status: ```200 OK``` lub ```401 Unauthorized``` w zależności od tego czy dane logowania się zgadzają. Zrób to za pomocą ```res.sendStatus(code)```
+W pliku server.js
+w endpoincie /login zahaszuj hasło którym użytkownik próbuje się zalogować (skorzystaj z wzoru w kodzie klienta), następnie porównaj je z haszem wyciąganym z bazy. Do klienta w response wyślij status: 200 OK lub 401 Unauthorized w zależności od tego czy dane logowania się zgadzają. Zrób to za pomocą res.sendStatus(code)
 </details>
 
 
