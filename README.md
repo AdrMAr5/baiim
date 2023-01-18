@@ -38,7 +38,7 @@ Jest to luka utworzona poprzez zwykły ludzki błąd przy projektowaniu systemu 
     docker compose up
     ```
 ## **Zadanie 1**
-Zdobądź hash hasła do użytkownika admin, a następnie złam za pomocą dowolnego narzędzia. Zauważ, że przy próbie logowania na konto danego uzytkowika serwer zwraca ci hash jego hasła. Spróbuj go podglądnąć przy pomocy Burpa czy też innych narzędzi.
+Zdobądź hash hasła do użytkownika admin, a następnie złam za pomocą dowolnego narzędzia. Zauważ, że przy próbie logowania na konto danego uzytkowika serwer zwraca ci hash jego hasła. Spróbuj go podglądnąć przy pomocy Burpa czy też innych narzędzi. Następnie przy pomocy Johnnego czy Hashcata spróbuj złamać wykradziony hasz. Rozwiązaniem jest hasło w postaci jawnej
 
 
 ## **Zadanie 2**
