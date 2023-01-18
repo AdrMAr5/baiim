@@ -13,10 +13,26 @@ Jest to luka utworzona poprzez zwykły ludzki błąd przy projektowaniu systemu 
 
 ## **Zaczynamy**:
 
-1. Należy uruchomić serwer oraz client za pomocą komendy
-    ```
-     npm start
-    ```
+1. Należy uruchomić serwer oraz client
+
+    **Uruchamianie Klienta:**
+    
+    Wejdź do katalogu client a następnie wykonaj poniższe komendy:
+
+        ```
+        npm ci
+        npm start
+        ```
+
+    **Uruchamianie Serwera:*
+    
+    Wejdź do katalogu server a następnie wykonaj poniższe komendy:
+    
+        ```
+        npm ci
+        npm start
+        ```
+
 2. Teraz uruchom bazę danych w dokerze za pomocą komendy (należy znajdować się w folderze zawierającym plik "docker-compose.yaml"):
     ```
     docker compose up
@@ -59,7 +75,7 @@ Po złamaniu hasła logujemy się na serwer
 
 Path Traversal to poważna luka w zabezpieczeniach, która może być wykorzystywana przez hakerów do uzyskania nieautoryzowanego dostępu do systemu lub do wykonania nieautoryzowanych poleceń na zdalnym komputerze.
 
-**<u>Podana luka została znaleziona w serwerze Apache 2.4.49 oraz 2.4.50 i nazwana [CVE-2021-41773](https://nvd.nist.gov/vuln/detail/CVE-2021-41773) & [CVE-2021-42013](https://nvd.nist.gov/vuln/detail/CVE-2021-42013)</u>**
+**<u>Podana luka została znaleziona w serwerze Apache 2.4.49 oraz 2.4.50 i nazwana [CVE-2021-41773](https://nvd.nist.gov/vuln/detail/CVE-2021-41773)</u>**
 
 **Apache** to darmowe, otwartoźródłowe i wieloplatformowe oprogramowanie serwera WWW wydane na licencji Apache License 2.0. Oprogramowanie jest utrzymywane i rozwijane przez organizację non profit Apache Software Foundation.
 
